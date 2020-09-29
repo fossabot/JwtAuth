@@ -1,0 +1,2 @@
+### Link to original article
+[How to Implement API Authentication with JSON Web Tokens and Passport](https://www.digitalocean.com/community/tutorials/api-authentication-with-json-web-tokensjwt-and-passport)
