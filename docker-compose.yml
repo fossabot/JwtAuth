@@ -1,0 +1,42 @@
+version: '3.5'
+services:
+  app:
+    image: auth-service
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: 'production'
+      MONGO_DB_HOST: 'mongo'
+    secrets:
+      - id_rsa
+      - id_rsa_pub
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo_data:/data/db
+      - mongo_config:/data/configdb
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_BASICAUTH_USERNAME: webroot
+#      ME_CONFIG_BASICAUTH_PASSWORD: example
+secrets:
+  id_rsa:
+    file: ./id_rsa.pem
+  id_rsa_pub:
+    file: ./id_rsa.pem.pub
+volumes:
+  mongo_data:
+  mongo_config:
