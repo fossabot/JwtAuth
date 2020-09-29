@@ -1,19 +1,26 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-const UserModel = require('../models/model')
+const UserModel = require('../models/user')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJWT = require('passport-jwt').ExtractJwt
+const keys = require('../helpers/rsaKeys')
 
 //Handle user registration
 passport.use('signup', new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password'
-}, async (email, password, done) => {
+  passwordField: 'password',
+  passReqToCallback: true,
+}, async (req, email, password, done) => {
   try {
     // save the information provided by the user to DB
-    const user = await UserModel.create({email, password})
+    const {firstName, lastName} = req
+    const user = await UserModel.countDocuments({email})
+    if (user) {
+      return done(null, false, {message: 'Already registered'})
+    }
+    const newUser = new UserModel({email, password, firstName, lastName})
     //send user info to the next middleware
-    return done(null, user)
+    return done(null, newUser)
   } catch (error) {
     done(error)
   }
@@ -22,11 +29,10 @@ passport.use('signup', new LocalStrategy({
 // Middleware to handle User login
 passport.use('login', new LocalStrategy({
   usernameField: 'email',
-  passwordField: 'password'
+  passwordField: 'password',
 }, async (email, password, done) => {
   try {
     const user = await UserModel.findOne({email})
-    console.log('user data', user)
     if (!user) {
       return done(null, false, {message: 'User not found'})
     }
@@ -36,9 +42,10 @@ passport.use('login', new LocalStrategy({
     }
     return done(null, user, {message: 'Logged in Successfully'})
   } catch(error) {
-    return done(error)
+    done(error)
   }
 }))
+//TODO check existing refreshToken
 
 //Verifying token from user
 passport.use(new JwtStrategy({
