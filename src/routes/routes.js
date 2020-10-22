@@ -57,6 +57,7 @@ router.post('/login', (req, res, next) => {
 
 /* POST refreshTokens (update Refresh Token and generate new AccessToken) */
 router.get('/refreshToken', async (req, res, next) => {
+  console.log('COOKIES', res.cookie)
   if (!req.cookies.refreshToken) return res.status(401).json({message: 'Unauthorized'})
   try {
     const refreshToken = await RefreshTokeModel.findOne({token: req.cookies.refreshToken})
@@ -76,7 +77,7 @@ router.get('/refreshToken', async (req, res, next) => {
 
 /* GET logout  */
 router.get('/logout', async (req, res, next) => {
-  console.log('cookies', req.cookies)
+  console.log('cookies', req.cookies.refreshToken)
   if (!req.cookies.refreshToken) return res.status(401).json({message: 'Unauthorized'})
 
   const refreshToken = await RefreshTokeModel.findOne({token: req.cookies.refreshToken})
