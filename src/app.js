@@ -34,7 +34,7 @@ require('./auth/auth')
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}))
-app.use
+// app.use(passport.initialize())
 app.use(cors({origin: true, credentials: true}))
 
 const routes = require('./routes/routes')
