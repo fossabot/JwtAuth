@@ -6,7 +6,6 @@ function setRefreshTokenCookie(res, token)
   const cookieOptions = {
     httpOnly: true,
     expires: new Date(Date.now() + 7*24*60*60*1000),
-    path: '/auth',
   };
   res.cookie(REFRESH_TOKEN_COOKIE_NAME, token, cookieOptions);
 }
