@@ -4,7 +4,10 @@
    - `docker build -t auth-service .`
    - `docker-compose up -d`
    
-__In any case don't forget generate keys with names `id_rsa.pem` and `id_rsa.pem.pub` and put them to the folder with docker-compose file!!!__
+## Using image from docker hub
+ * replace a name of image in docker-compose file with `maximus905/jwt-auth`   
+ ---
+__In any case of using don't forget generate keys with names `id_rsa.pem` and `id_rsa.pem.pub` and put them to the folder with docker-compose file!!!__
 
 [More info about app and how to generate keys](src/README.md)
 
