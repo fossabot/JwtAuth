@@ -30,8 +30,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-#      ME_CONFIG_BASICAUTH_USERNAME: webroot
-#      ME_CONFIG_BASICAUTH_PASSWORD: example
+      ME_CONFIG_BASICAUTH_USERNAME: webroot
+      ME_CONFIG_BASICAUTH_PASSWORD: webrootpass
 secrets:
   id_rsa:
     file: ./id_rsa.pem

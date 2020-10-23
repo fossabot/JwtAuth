@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "@types/mongoose": "^5.7.36",
+    "activedirectory": "^0.7.2",
+    "ad-promise": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
@@ -19,6 +21,7 @@
     "mongoose": "^5.9.28",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
+    "passport-activedirectory": "^1.0.4",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
   },
