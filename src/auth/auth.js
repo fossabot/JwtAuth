@@ -11,27 +11,6 @@ const COOKIES  =require('../constants/cookies')
 const ActiveDirectory = require('ad-promise')
 const DEFAULT_DOMAIN = 'rs.ru'
 
-//Handle user registration
-passport.use('signup', new LocalStrategy({
-  usernameField: 'username',
-  passwordField: 'password',
-  passReqToCallback: true,
-}, async (req, username, password, done) => {
-  try {
-    // save the information provided by the user to DB
-    const {firstName, lastName} = req
-    const user = await UserModel.countDocuments({username})
-    if (user) {
-      return done(null, false, {message: 'Already registered'})
-    }
-    const newUser = new UserModel({username, password, firstName, lastName})
-    //send user info to the next middleware
-    return done(null, newUser)
-  } catch (error) {
-    done(error)
-  }
-}))
-
 // Middleware to handle User login (local auth)
 passport.use('login_local', new LocalStrategy({
   usernameField: 'username',
