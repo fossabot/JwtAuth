@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const randomTokenString = require('../helpers/randomString')
+const COOKIES = require('../constants/cookies')
 
 const schema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
@@ -25,14 +26,14 @@ schema.statics.generateRefreshToken = function (user, ipAddress) {
   return new this({
     user: user.id,
     token: randomTokenString(),
-    expires: new Date(Date.now() + 7*24*60*60*1000),
+    expires: new Date(Date.now() + COOKIES.REFRESH_TOKEN_LIVE_TIME_DAYS*24*60*60*1000),
     createdByIp: ipAddress
   })
 }
 schema.methods.refresh = function (ipAddress) {
   this.previousToken = this.token
   this.token = randomTokenString()
-  this.expires = new Date(Date.now() + 7*24*60*60*1000)
+  this.expires = new Date(Date.now() + COOKIES.REFRESH_TOKEN_LIVE_TIME_DAYS*24*60*60*1000)
   this.createdByIp = ipAddress
   this.revoked = undefined
   this.revokedByIp = undefined

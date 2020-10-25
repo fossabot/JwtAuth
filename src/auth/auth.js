@@ -4,6 +4,9 @@ const UserModel = require('../models/user')
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJWT = require('passport-jwt').ExtractJwt
 const keys = require('../helpers/rsaKeys')
+const tokenTools = require('../helpers/token')
+
+const COOKIES  =require('../constants/cookies')
 
 const ActiveDirectory = require('ad-promise')
 const DEFAULT_DOMAIN = 'rs.ru'
@@ -29,8 +32,8 @@ passport.use('signup', new LocalStrategy({
   }
 }))
 
-// Middleware to handle User login
-passport.use('login', new LocalStrategy({
+// Middleware to handle User login (local auth)
+passport.use('login_local', new LocalStrategy({
   usernameField: 'username',
   passwordField: 'password',
 }, async (username, password, done) => {
@@ -48,24 +51,41 @@ passport.use('login', new LocalStrategy({
     done(error)
   }
 }))
-//TODO check existing refreshToken
 
 //Verifying token from user
-passport.use(new JwtStrategy({
+//extractor cookie with access token
+function fromCookieExtractor(req) {
+  let token = null
+  if (req.cookies && req.cookies[COOKIES.ACCESS_TOKEN_COOKIE_NAME]) {
+    token = req.cookies[COOKIES.ACCESS_TOKEN_COOKIE_NAME]
+  }
+  return token
+}
+
+passport.use('jwt', new JwtStrategy({
   //secret we used to sign token
-  secretOrKey: 'top_secret',
+  secretOrKey: keys.id_rsa_pub,
   //we expect the user to send the token as a query parameter with the name 'secret_token'
-  jwtFromRequest: ExtractJWT.fromUrlQueryParameter('secret_token')
-}, async (token, done) => {
+  jwtFromRequest: ExtractJWT.fromExtractors([ExtractJWT.fromAuthHeaderAsBearerToken(), fromCookieExtractor])
+}, (jwt_payload, done) => {
   try {
-    //Pass the user details to next middleware
-    return done(null, token.user)
-  } catch(error) {
+    if (!jwt_payload) {
+      done(new Error('Access denied'))
+    }
+    if (jwt_payload) {
+      if (tokenTools.isExpired(jwt_payload)) {
+        return done(null, false, {message: 'Authorization is expired'})
+      }
+      return done(null, jwt_payload);
+    } else {
+      return done(null, false);
+    }
+  } catch (error) {
     done(error)
   }
 }))
 
-//AD authorization
+//AD authorization strategy
 const config = {
   url: 'ldap://rs.ru',
   baseDN: 'dc=rs,dc=ru',
