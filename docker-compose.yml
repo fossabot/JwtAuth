@@ -15,8 +15,8 @@ services:
       - mongo
   mongo:
     image: mongo
-    ports:
-      - 27017:27017
+#    ports:
+#      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -32,6 +32,8 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_BASICAUTH_USERNAME: webroot
       ME_CONFIG_BASICAUTH_PASSWORD: webrootpass
+    depends_on:
+      - mongo
 secrets:
   id_rsa:
     file: ./id_rsa.pem
