@@ -69,7 +69,7 @@ router.post('/login', (req, res, next) => {
         await refreshToken.save()
         setRefreshTokenCookie(res, refreshToken.token)
         setAccessTokenCookie(res, accessToken)
-        return res.json({accessToken})
+        return process.env.REFRESH_TOKEN_IN_BODY ? res.json({accessToken, refreshToken: refreshToken.token}) : res.json({accessToken})
       })
     } catch(error) {
       res.status(500).json({message: error})
@@ -93,7 +93,7 @@ router.get('/refreshToken', async (req, res, next) => {
 
     setRefreshTokenCookie(res, refreshToken.token)
     setAccessTokenCookie(res, accessToken)
-    return res.json({accessToken})
+    return process.env.REFRESH_TOKEN_IN_BODY ? res.json({accessToken, refreshToken: refreshToken.token}) : res.json({accessToken})
   } catch (err) {
     res.status(500).json({message: err})
   }

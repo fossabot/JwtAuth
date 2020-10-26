@@ -66,8 +66,8 @@ passport.use('jwt', new JwtStrategy({
 
 //AD authorization strategy
 const config = {
-  url: 'ldap://rs.ru',
-  baseDN: 'dc=rs,dc=ru',
+  url: process.env.DC_URL,
+  baseDN: process.env.BASE_DN,
 }
 
 passport.use('ad_auth', new LocalStrategy({}, async (username, password, done) => {

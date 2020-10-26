@@ -4,7 +4,7 @@ function setRefreshTokenCookie(res, token)
 {
   // create http only cookie with refresh token that expires in 7 days
   const cookieOptions = {
-    httpOnly: true,
+    httpOnly: !!process.env.REFRESH_TOKEN_COOKIE_HTTPONLY,
     expires: new Date(Date.now() + COOKIES.REFRESH_TOKEN_LIVE_TIME_DAYS*24*60*60*1000),
   };
   res.cookie(COOKIES.REFRESH_TOKEN_COOKIE_NAME, token, cookieOptions);
@@ -15,6 +15,7 @@ function getRefreshTokenCookie(req) {
 
 function setAccessTokenCookie(res, token)
 {
+  if (!process.env.ACCESS_TOKEN_COOKIE) return
   // create http only cookie with refresh token that expires in 7 days
   const cookieOptions = {
     httpOnly: false,

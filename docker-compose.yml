@@ -8,6 +8,11 @@ services:
     environment:
       NODE_ENV: 'production'
       MONGO_DB_HOST: 'mongo'
+      DC_URL: 'ldap://rs.ru'
+      BASE_DN: 'dc=rs,dc=ru'
+      REFRESH_TOKEN_COOKIE_HTTPONLY: 'true'
+#      REFRESH_TOKEN_IN_BODY: 'true'
+      ACCESS_TOKEN_COOKIE: 'true'
     secrets:
       - id_rsa
       - id_rsa_pub
