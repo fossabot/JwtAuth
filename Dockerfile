@@ -3,9 +3,9 @@ FROM node:12.6
 WORKDIR /usr/src/app
 
 # copy both files: package.json и package-lock.json
-COPY ./src/package*.json .
+#COPY ./src/package*.json .
 
-RUN npm install
+#RUN npm install
 # If you build production image use:
 # RUN npm ci --only=production
 
