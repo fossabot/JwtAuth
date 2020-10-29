@@ -1,6 +1,18 @@
 # Authentication service
 environment variables:
-*  **NODE_ENV** - if it set to `production` will be used the docker's secrets. Else local key files in the parent directory. They should be named as `id_rsa.pem` (private key) and `id_rsa.pem.pub` (public key)
+* **NODE_ENV** - if it set to `production` will be used the docker's secrets. Else local key files in the parent directory. They should be named as `id_rsa.pem` (private key) and `id_rsa.pem.pub` (public key)
+* **DC_URL** - domain controller URL like `ldap://domain.com`
+* **BASE_DN** - like `dc=domain,dc=com`
+* **MONGO_DB_HOST** ['mongo']
+* **REFRESH_TOKEN_COOKIE_HTTPONLY** ['true']
+* **REFRESH_TOKEN_IN_BODY** - send or not refresh token in the response body 
+* **ACCESS_TOKEN_SET_COOKIE** ['true'] - set cookie for access token
+* **ACCESS_TOKEN_LIVE_TIME_MINUTES** [15]
+* **ACCESS_TOKEN_COOKIE_NAME** ['_atk']
+* **REFRESH_TOKEN_LIVE_TIME_DAYS** [7]
+* **REFRESH_TOKEN_COOKIE_NAME** ['_rtk']
+* **DISABLE_AD_AUTH** - can be used for debug only! Disables AD authentication!
+
 ## How to generate keys for signing tokens
 ### Generation keys for JWT (pem format, RSA256):
 ```shell script

@@ -15,7 +15,7 @@ if (! keys) process.exit(1)
 process.on('exit', (code) => {
   console.log(`Program exit with code ${code}`)
 })
-const MONGO_DB_HOST = process.env.MONGO_DB_HOST || '127.0.0.1'
+const MONGO_DB_HOST = process.env.MONGO_DB_HOST || 'mongo'
 
 const mongo_uri = `mongodb://root:example@${MONGO_DB_HOST}:27017/jwtAuth?authSource=admin`
 mongoose.connect(mongo_uri, {useNewUrlParser: true})

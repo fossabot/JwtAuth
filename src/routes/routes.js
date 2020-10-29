@@ -47,14 +47,16 @@ router.post('/login', (req, res, next) => {
   passport.authenticate('ad_auth', {session: false},async (err, user, info) => {
     try {
       if (err) throw err
-      if (!user) return res.status(401).json({message: info.message})
+      if (!user) {
+        return res.status(401).json({message: info.message})
+      }
       req.login(user, {session: false}, async (error) => {
         if (error) return next(error)
         //generate access token
         const accessToken = user.generateJwtToken()
         //working with refresh token
         let refreshToken = getRefreshTokenCookie(req)
-        console.log('POST:/login, refreshCookie: ', refreshToken)
+        console.log('Route: POST:/login, refreshCookie: ', refreshToken)
         if (refreshToken) {
           refreshToken = await RefreshTokeModel.findOne({token: refreshToken})
           // console.log('find by ref token', {refreshToken})
