@@ -116,7 +116,7 @@ passport.use('ad_auth', new LocalStrategy({}, async (username, password, done) =
 
 
     user.profile = {userPrincipalName, sAMAccountName, mail, employeeID, sn, givenName, cn, displayName, description}
-    console.log(`User ${username}: Authorization successful`, userPrincipalName, sAMAccountName, mail, employeeID, sn, givenName, cn, displayName, description)
+    console.log(`User ${username}: Authorization successful`)
     return done(null, user, {message: 'Authorization successful!'})
 
   } catch (error) {
