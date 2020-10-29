@@ -81,12 +81,18 @@ router.post('/login', (req, res, next) => {
 
 /* POST refreshTokens (update Refresh Token and generate new AccessToken) */
 router.get('/refreshToken', async (req, res, next) => {
-  if (!getRefreshTokenCookie(req)) return res.status(401).json({message: 'Unauthorized'})
+  console.log('Route: POST:/refreshToken, IP: ', req.ip)
+  const refreshCookie = getRefreshTokenCookie(req)
+  if (!refreshCookie) {
+    console.log(`Route: POST:/refreshToken, IP: ${req.ip}. Refresh cookie isn't supplied`)
+    return res.status(401).json({message: 'Unauthorized'})
+  }
   try {
-    const refreshToken = await RefreshTokeModel.findOne({token: getRefreshTokenCookie(req)})
+    const refreshToken = await RefreshTokeModel.findOne({token: refreshCookie})
     if (!refreshToken || !refreshToken.isActive) {
       res.clearCookie(COOKIES.REFRESH_TOKEN_COOKIE_NAME)
       res.clearCookie(COOKIES.ACCESS_TOKEN_COOKIE_NAME)
+      console.log(`Route: POST:/refreshToken, IP: ${req.ip}. Refresh cookie ${refreshCookie} was not found in DB`)
       return res.status(401).json({message: 'Unauthorized'})
     }
     await refreshToken.refresh(req.ip).save()
@@ -95,6 +101,7 @@ router.get('/refreshToken', async (req, res, next) => {
 
     setRefreshTokenCookie(res, refreshToken.token)
     setAccessTokenCookie(res, accessToken)
+    console.log(`Route: POST:/refreshToken, IP: ${req.ip}. Successful`)
     return process.env.REFRESH_TOKEN_IN_BODY ? res.json({accessToken, refreshToken: refreshToken.token}) : res.json({accessToken})
   } catch (err) {
     res.status(500).json({message: err})
@@ -114,6 +121,7 @@ router.get('/logout', async (req, res, next) => {
   await refreshToken.revoke(req.ip).save()
   res.clearCookie(COOKIES.REFRESH_TOKEN_COOKIE_NAME)
   res.clearCookie(COOKIES.ACCESS_TOKEN_COOKIE_NAME)
+  console.log(`Route: GET:/logout, IP: ${req.ip}. Successful`)
   res.json({message: 'Logged out'})
 })
 

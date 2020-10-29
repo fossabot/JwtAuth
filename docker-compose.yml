@@ -13,11 +13,11 @@ services:
 #      REFRESH_TOKEN_COOKIE_HTTPONLY: 'true'
 #      REFRESH_TOKEN_IN_BODY: 'true'
 #      ACCESS_TOKEN_SET_COOKIE: 'true'
-#      ACCESS_TOKEN_LIVE_TIME_MINUTES: 15
+      ACCESS_TOKEN_LIVE_TIME_MINUTES: 3
 #      ACCESS_TOKEN_COOKIE_NAME: '_atk'
 #      REFRESH_TOKEN_LIVE_TIME_DAYS: 7
 #      REFRESH_TOKEN_COOKIE_NAME: '_rtk'
-#      DISABLE_AD_AUTH: 'true'
+      DISABLE_AD_AUTH: 'true'
     secrets:
       - id_rsa
       - id_rsa_pub
