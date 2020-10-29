@@ -5,6 +5,8 @@ const passport = require('passport')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
+const requestIp = require('request-ip');
+
 
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -36,6 +38,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: false}))
 // app.use(passport.initialize())
 app.use(cors({origin: true, credentials: true}))
+app.use(requestIp.mw())
+
 
 const routes = require('./routes/routes')
 

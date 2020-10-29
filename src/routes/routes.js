@@ -81,10 +81,11 @@ router.post('/login', (req, res, next) => {
 
 /* POST refreshTokens (update Refresh Token and generate new AccessToken) */
 router.get('/refreshToken', async (req, res, next) => {
-  console.log('Route: POST:/refreshToken, IP: ', req.ip)
+  console.log('Route: POST:/refreshToken, IP: ', req.clientIp)
+  console.log('HEADER', req.headers['x-client-ip'], req.headers['x-real-ip'])
   const refreshCookie = getRefreshTokenCookie(req)
   if (!refreshCookie) {
-    console.log(`Route: POST:/refreshToken, IP: ${req.ip}. Refresh cookie isn't supplied`)
+    console.log(`Route: POST:/refreshToken, IP: ${req.clientIp}. Refresh cookie isn't supplied`)
     return res.status(401).json({message: 'Unauthorized'})
   }
   try {
@@ -92,7 +93,7 @@ router.get('/refreshToken', async (req, res, next) => {
     if (!refreshToken || !refreshToken.isActive) {
       res.clearCookie(COOKIES.REFRESH_TOKEN_COOKIE_NAME)
       res.clearCookie(COOKIES.ACCESS_TOKEN_COOKIE_NAME)
-      console.log(`Route: POST:/refreshToken, IP: ${req.ip}. Refresh cookie ${refreshCookie} was not found in DB`)
+      console.log(`Route: POST:/refreshToken, IP: ${req.clientIp}. Refresh cookie ${refreshCookie} was not found in DB`)
       return res.status(401).json({message: 'Unauthorized'})
     }
     await refreshToken.refresh(req.ip).save()
