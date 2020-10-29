@@ -1,5 +1,5 @@
 ## How to start with docker-compose
- * build image on the launch of docker-compose and start app: `docker-compose up -d build`
+ * build image on the launch of docker-compose and start app: `docker-compose up -d --build`
  * build image and then start app
    - `docker build -t auth-service .`
    - `docker-compose up -d`
