@@ -1,6 +1,7 @@
 version: '3.5'
 services:
   app:
+#    image: maximus905/jwt-auth
     image: auth-service
     build: .
     ports:
@@ -24,9 +25,9 @@ services:
     depends_on:
       - mongo
   mongo:
-    image: mongo
-#    ports:
-#      - 27017:27017
+    image: mongo:4.4.1
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
@@ -34,7 +35,7 @@ services:
       - mongo_data:/data/db
       - mongo_config:/data/configdb
   mongo-express:
-    image: mongo-express
+    image: mongo-express:0.54.0
     ports:
       - 8010:8081
     environment:
