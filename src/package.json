@@ -1,9 +1,9 @@
 {
   "name": "authjwt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "@types/mongoose": "^5.7.36",

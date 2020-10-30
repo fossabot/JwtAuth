@@ -10,7 +10,7 @@ const UserModel = require('../models/user')
 /* POST /sign up */
 router.post('/signup', (req, res, next) => {
   passport.authenticate('jwt', {session: false}, async (err, user, info) => {
-    //if users DB is empty - allow to create first user
+    //if users DB is empty - inject virtual user to allow first user creation
     const counter = await UserModel.countDocuments()
     if (counter === 0) return next()
 

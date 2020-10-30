@@ -19,3 +19,6 @@ first version
   - REFRESH_TOKEN_LIVE_TIME_DAYS
   - REFRESH_TOKEN_COOKIE_NAME
   - DISABLE_AD_AUTH
+### 1.0.3
+* if you have an empty users DB, you can create first user using `POST /signup` route
+* appended env file using for `NODE_MODE !== 'production'`. See `README.md`  
