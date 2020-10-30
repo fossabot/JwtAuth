@@ -1,6 +1,7 @@
 # Authentication service
 environment variables:
-* **NODE_ENV** - if it set to `production` will be used the docker's secrets. Else local key files in the parent directory. They should be named as `id_rsa.pem` (private key) and `id_rsa.pem.pub` (public key)
+* **NODE_ENV** - if it set to `production` will be used the docker's secrets and env variables of `app` container. In other case keys will be read from local key files in the parent directory and env variables from `.env` file. They should be named as `id_rsa.pem` (private key) and `id_rsa.pem.pub` (public key).  
+You can use `.env_example` file as a template to create `.env` file.
 * **DC_URL** - domain controller URL like `ldap://domain.com`
 * **BASE_DN** - like `dc=domain,dc=com`
 * **MONGO_DB_HOST** ['mongo']
