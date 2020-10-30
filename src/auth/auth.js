@@ -96,6 +96,7 @@ passport.use('ad_auth', new LocalStrategy({}, async (username, password, done) =
     }
 
     // if user exists, authorise one in AD
+    console.log(`User ${username} is found in local DB`)
     const ad = new ActiveDirectory({...config, username, password})
     const res = process.env.DISABLE_AD_AUTH
       ? true

@@ -14,10 +14,43 @@ const bodyParser = require('body-parser')
 const keys = require('./helpers/rsaKeys')
 if (! keys) process.exit(1)
 
+if (process.env.NODE_ENV !== 'production') {
+  const dotenv = require('dotenv')
+  dotenv.config()
+  const {
+    MONGO_DB_HOST,
+    NODE_ENV,
+    DC_URL,
+    BASE_DN,
+    REFRESH_TOKEN_COOKIE_HTTPONLY,
+    REFRESH_TOKEN_IN_BODY,
+    ACCESS_TOKEN_SET_COOKIE,
+    ACCESS_TOKEN_LIVE_TIME_MINUTES,
+    ACCESS_TOKEN_COOKIE_NAME,
+    REFRESH_TOKEN_LIVE_TIME_DAYS,
+    REFRESH_TOKEN_COOKIE_NAME,
+    DISABLE_AD_AUTH
+  } = process.env
+  console.log('Non production mode. Env variables: ', {
+    MONGO_DB_HOST,
+    NODE_ENV,
+    DC_URL,
+    BASE_DN,
+    REFRESH_TOKEN_COOKIE_HTTPONLY,
+    REFRESH_TOKEN_IN_BODY,
+    ACCESS_TOKEN_SET_COOKIE,
+    ACCESS_TOKEN_LIVE_TIME_MINUTES,
+    ACCESS_TOKEN_COOKIE_NAME,
+    REFRESH_TOKEN_LIVE_TIME_DAYS,
+    REFRESH_TOKEN_COOKIE_NAME,
+    DISABLE_AD_AUTH
+  })
+}
+
 process.on('exit', (code) => {
   console.log(`Program exit with code ${code}`)
 })
-const MONGO_DB_HOST = process.env.MONGO_DB_HOST || 'mongo'
+const MONGO_DB_HOST =  process.env.MONGO_DB_HOST || 'mongo'
 
 const mongo_uri = `mongodb://root:example@${MONGO_DB_HOST}:27017/jwtAuth?authSource=admin`
 mongoose.connect(mongo_uri, {useNewUrlParser: true})

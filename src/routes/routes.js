@@ -9,7 +9,11 @@ const UserModel = require('../models/user')
 
 /* POST /sign up */
 router.post('/signup', (req, res, next) => {
-  passport.authenticate('jwt', {session: false}, (err, user, info) => {
+  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+    //if users DB is empty - allow to create first user
+    const counter = await UserModel.countDocuments()
+    if (counter === 0) return next()
+
     if (err) {
       const error = new Error('An Error occurred')
       return next(error)
@@ -104,7 +108,8 @@ router.get('/refreshToken', async (req, res, next) => {
     console.log(`Route: POST:/refreshToken, IP: ${req.clientIp}. Successful`)
     return process.env.REFRESH_TOKEN_IN_BODY ? res.json({accessToken, refreshToken: refreshToken.token}) : res.json({accessToken})
   } catch (err) {
-    res.status(500).json({message: err})
+    console.log(`Route: POST:/refreshToken, IP: ${req.clientIp}. Unexpected error. ${err.message}`)
+    res.status(500).json({message: 'Unexpected error'})
   }
 })
 
