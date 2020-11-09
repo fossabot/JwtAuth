@@ -69,7 +69,16 @@ passport.use('jwt', new JwtStrategy({
 const config = {
   url: process.env.DC_URL,
   baseDN: process.env.BASE_DN,
+  username: process.env.AD_READER_USERNAME,
+  password: process.env.AD_READER_PASSWORD
 }
+
+const ad = new ActiveDirectory({...config})
+ad.authenticate(config.username, config.password).catch(reason => {
+  console.log('ERROR: Invalid Reader Credentials!')
+  process.exit(1)
+})
+
 async function fetchUserProfile(ad, username) {
   try {
     const res = await ad.findUser(username)
@@ -97,7 +106,7 @@ passport.use('ad_auth', new LocalStrategy({}, async (username, password, done) =
 
     // if user exists, authorise one in AD
     console.log(`User ${username} is found in local DB`)
-    const ad = new ActiveDirectory({...config, username, password})
+    // const ad = new ActiveDirectory({...config})
     const res = process.env.DISABLE_AD_AUTH
       ? true
       : await ad.authenticate(username, password)

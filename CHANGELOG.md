@@ -22,3 +22,6 @@ first version
 ### 1.0.3
 * if you have an empty users DB, you can create first user using `POST /signup` route
 * appended env file using for `NODE_MODE !== 'production'`. See `README.md`  
+### 1.0.4
+* fixed error of infinity requests with invalid user's credentials. This error led to block this user after first GET request with invalid credentials.  
+  See AD_READER_USERNAME and AD_READER_PASSWORD env variables in the [src/README.md](src/README.md).
