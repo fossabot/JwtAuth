@@ -4,6 +4,8 @@ environment variables:
 You can use `.env_example` file as a template to create `.env` file.
 * **DC_URL** - domain controller URL like `ldap://domain.com`
 * **BASE_DN** - like `dc=domain,dc=com`
+* **AD_READER_USERNAME** - like `username@domain.ru`. Username for AD look up operations. As usual any valid user from `domain.com`. 
+* **AD_READER_PASSWORD** Password of user above.
 * **MONGO_DB_HOST** ['mongo']
 * **REFRESH_TOKEN_COOKIE_HTTPONLY** ['true']
 * **REFRESH_TOKEN_IN_BODY** - send or not refresh token in the response body 

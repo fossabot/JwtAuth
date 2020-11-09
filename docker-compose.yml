@@ -1,8 +1,8 @@
 version: '3.5'
 services:
   app:
-#    image: maximus905/jwt-auth
-    image: auth-service
+    image: maximus905/jwt-auth
+#    image: auth-service
     build: .
     ports:
       - 3010:3000
@@ -11,6 +11,8 @@ services:
 #      MONGO_DB_HOST: 'mongo'
       DC_URL: 'ldap://domain.ru'
       BASE_DN: 'dc=domain,dc=ru'
+      AD_READER_USERNAME: 'AdReader-Username@domain.ru',
+      AD_READER_PASSWORD: 'AdReader-Password'
 #      REFRESH_TOKEN_COOKIE_HTTPONLY: 'true'
 #      REFRESH_TOKEN_IN_BODY: 'true'
 #      ACCESS_TOKEN_SET_COOKIE: 'true'
