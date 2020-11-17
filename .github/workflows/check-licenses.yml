@@ -16,7 +16,7 @@ jobs:
     - name: Install LicenseFInder
       run: gem install license_finder
     - name: LicenseFinder report
-      run: license_finder report
+      run: license_finder report -p
     - name: approve all licenses
       run: |
         license_finder report -q --format=json | jq -r '.dependencies[] | .licenses[]' | sort | uniq | sed -e "s/.*/'&'/" | xargs -L1 license_finder permitted_licenses add > /dev/null
