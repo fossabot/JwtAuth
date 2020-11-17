@@ -15,8 +15,6 @@ jobs:
         ruby-version: 2.6
     - name: Install LicenseFInder
       run: gem install license_finder
-    - name: Install deps
-      run: yarn install
     - name: LicenseFinder report
       run: license_finder report
     - name: approve all licenses
